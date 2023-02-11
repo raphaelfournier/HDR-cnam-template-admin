@@ -1,0 +1,179 @@
+%\let\stdsection\section
+%\renewcommand\section{\clearpage\stdsection}
+
+%%%% debut macro %%%%
+\def\keepspace{\ifnum\catcode`\ =10
+  \let\next\keepspacebis \else \let\next\relax \fi
+  \next}
+\def \keepspacebis{\obeyspaces
+  \afterassignment\keepspaceaux\let\next= }
+{\obeyspaces%
+\gdef\keepspaceaux{%
+\ifx \next\space\let\next\ignorespaces\fi%
+\catcode`\  =10\relax\next}}
+%%%%
+%%%% fin macro %%%%
+
+
+\newcommand{\tbd}{{\bf TODO}\xspace}
+\newcommand{\ie}{\emph{i.e.}\xspace}
+\newcommand{\cad}{c'est-à-dire\xspace}
+\newcommand{\via}{\emph{via}\xspace}
+\newcommand{\apriori}{\emph{a priori}\xspace}
+\newcommand{\aposteriori}{\emph{a posteriori}\xspace}
+\newcommand{\cf}{\emph{cf.}\xspace}
+\newcommand{\na}{\mbox{n/a}\xspace}
+\newcommand{\ptop}{P2P\xspace}
+\newcommand{\eg}{\emph{e.g.}\xspace}
+\newcommand{\superscript}[1]{\ensuremath{^{\textrm{#1}}}}
+\newcommand{\subscript}[1]{\ensuremath{_{\textrm{#1}}}}
+\newcommand{\vs}{{\em vs}\xspace}
+\newcommand{\prev}{{\em précédente}\xspace}
+\newcommand{\suiv}{{\em suivante}\xspace}
+\DeclareUrlCommand\printtopic{\urlstyle{tt}}
+\newcommand{\topic}[1]{\protect\printtopic{#1}\index{#1}\xspace}
+\newcommand{\urlfoot}[1]{\footnote{Voir~: \url{#1}.}\xspace}
+
+\newcommand{\ecite}{{\em \tt \small (citation manquante)}\xspace}
+\newcommand{\tocite}[1]{{\em \tt \small [? #1]}\xspace}
+
+\newcommand{\fixthis}{{\em \bf (FIXTHIS)}\xspace}
+\newcommand{\modif}{{\em \bf (FIXTHIS)}\xspace}
+\newcommand{\fonction}[5]{\begin{array}{l|rcl}
+#1: & #2 & \longrightarrow & #3 \\
+    & #4 & \longmapsto & #5 \end{array}
+}
+\newcommand{\fonc}[3]{\begin{array}{llcl}
+#1: & #2 & \longmapsto & #3 \end{array}
+}
+
+\usepackage{pgffor, ifthen}
+\newcommand{\notes}[3][\empty]{%
+  \noindent Notes\vspace{10pt}\\
+  \foreach \n in {1,...,#2}{%
+    \ifthenelse{\equal{#1}{\empty}}
+      {\rule{#3}{0.5pt}\\}
+      {\rule{#3}{0.5pt}\vspace{#1}\\}
+    }
+}
+
+\newcommand{\includegraphicsmaybe}[2][]{\IfFileExists{#2}{\includegraphics{#2}}{\fbox{#2 is missing}\\}}
+\newcommand\Mark[1]{\textsuperscript#1}
+
+\newcommand{\bagwords}{\og bag-of-words \fg{}}
+\newcommand{\weighting}{weighting function}
+\newcommand{\weightings}{weighting functions}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\aggr}{aggr}
+\newcommand{\R}{\mathbb{R}} 
+\newcommand{\card}{\mathrm{Card}}
+
+%%%%%%%%%%% spécifique %%%%%%%%%
+\newcommand{\supports}{\textsuperscript{\ding{72}}}
+\newcommand{\logiciels}{\textsuperscript{\ding{73}}}
+
+% affichage des heures ou pas 
+\newcommand{\heures}[1]{}
+
+% récap des publis (partagé)
+\newcommand{\recapPublis}{%
+\begin{center}\small
+	\begin{tabular}{|l|l|c|}\hline
+		\textbf{Audience} & \textbf{Catégorie} & \textbf{Nombre}\\\hline
+		\multirow{4}{*}{Internationale} & Revue avec comité de rédaction      & {\color{White}0}1\\
+		                                & Chapitres d'ouvrages avec comité de rédaction               & {\color{White}0}2\\
+		                                & Conférences avec comité de sélection & {\color{White}0}9\\
+		                                & \emph{Workshops} avec comité de sélection  & {\color{White}0}3\\\hline
+		\multirow{3}{*}{Nationale}      & Revues avec comité de rédaction     & {\color{White}0}4\\
+		                                & Conférences avec comité de sélection & 13\\
+		                                & Atelier avec comité de sélection & {\color{White}0}1\\\hline
+		\rowcolor[gray]{.9}\multicolumn{2}{|l|}{\textbf{Total des publications significatives}} & \textbf{33}\\\hline
+		\multicolumn{2}{|l|}{Autres travaux}                        & {\color{White}0}3\\\hline
+		\rowcolor[gray]{.9}\multicolumn{2}{|l|}{\textbf{Total des publications}} & \textbf{36}\\\hline
+	\end{tabular}
+\end{center}}
+
+% récap des enseignements (partagé) \columncolor[gray]{.9}
+\newcommand{\recapEnseignementsLight}{%
+\begin{center}\small %>{\centering\bf\arraybackslash\columncolor[gray]{.9}}
+\begin{tabular}{|l|l|l|*{4}{>{\centering\arraybackslash}p{1.3cm}|}|>{\centering\bf\arraybackslash\columncolor[gray]{.9}}p{1.1cm}|}\hline
+\multirow{2}{*}{\textbf{Thème des enseignements}} & \multirow{2}{*}{\textbf{Niveau}} & \multirow{2}{*}{\textbf{Type}} & 
+\multicolumn{3}{c|}{\textbf{Moniteur}} & \textbf{\nicefrac{1}{2} ATER} & 
+\\\cline{4-7}%\hhline{~~----~}
+&  & & \textbf{05--06} & \textbf{06--07}     & \textbf{07--08} & \textbf{08--09} & \multirow{-2}{*}{\textbf{Total}}\\\hline
+Programmation orientée objet\supports{}         & L3      & TD, TP & 11     & 11   & 46   & 46    & 114\\
+Bases de données\supports{} \& XML              & L2 $\to$ M1  & TP     & 25,5   & 35   & 8    & 39,5  & 108\\
+Algorithmique\logiciels{}                       & L1      & TP     & 9      & 9    & 9    & 12    & 39\\
+Bureautique\supports{}                          & L1, L3  & TP     & 16     & 12   & ---  & ---   & 28\\
+Tutorat académique de stage           & L3      & ---    & 4      & ---  & ---  & ---   & 4\\\hline
+\rowcolor[gray]{.9}\textbf{Total (éq. TD)}  &   &  & \textbf{65,5} & \textbf{67}   & \textbf{63} & \textbf{97,5}  & \textbf{293}\\\hline
+\end{tabular}
+\end{center}}
+
+% (-2) vieux hack pr faire marcher colortbl et multirow !! http://les-mathematiques.u-strasbg.fr/phorum5/read.php?10,456219
+\newcommand{\recapEnseignements}{%
+\begin{center}\small %>{\centering\bf\arraybackslash\columncolor[gray]{.9}}
+\begin{tabular}{|l|c|*{4}{>{\centering\arraybackslash}p{1.3cm}|}|>{\centering\bf\arraybackslash\columncolor[gray]{.9}}p{1.3cm}|}\hline
+\multirow{2}{*}{\textbf{Intitulé}} & \multirow{2}{*}{\textbf{Niveau}} & 
+\multicolumn{3}{c|}{\textbf{Moniteur}} & \textbf{\nicefrac{1}{2} ATER} & 
+\\\cline{3-6}%\hhline{~~----~}
+&  & \textbf{05--06} & \textbf{06--07}     & \textbf{07--08} & \textbf{08--09} & \multirow{-2}{*}{\textbf{Total}}\\\hline
+Programmation orientée objet (Java)         & L3   & 11   & 11   & 23   & 23  & 68\\
+Conception BD (Oracle)                      & L2, L3 & 12   & 8    & 8    & 26  & 54\\
+Concepts objet avancés (Java)               & L3   & ---  & ---  & 23   & 23  & 46\\
+Algorithmique (CompAlgo)                    & L1   & 9    & 9    & 9    & 12  & 39\\
+Conception BD (Access)                      & L3   & 13,5 & 13,5 & ---  & --- & 27\\
+Internet, Shell, Bureautique (OOffice)      & L1   & 16   & ---  & ---  & --- & 16\\
+Bureau d'études BD (Oracle)                 & L3   & ---  & 13,5 & ---  & --- & 13,5\\
+Tableur avancé (Excel)                      & L3   & ---  & 12   & ---  & --- & 12\\
+Bases de données avancées (Oracle)          & M1   & ---  & ---  & ---  & 8   & 8\\
+Intéropérabilité d'applications (XML)       & M1   & ---  & ---  & ---  & 5,5   & 5,5\\
+Tutorat académique de stage (IUP ISI)       & L3   & 4    & ---  & ---  & --- & 4\\\hline
+\rowcolor[gray]{.9}\textbf{Total (éq. TD)}  &   & \textbf{65,5} & \textbf{67}   & \textbf{63} & \textbf{97,5}  & \textbf{293}\\\hline
+\end{tabular}
+\end{center}}
+
+\newcommand{\entryDescription}[1]{\hfill\mbox{#1\ \ }}
+
+\newenvironment{Description}[1]%
+	{\begin{list}{}{\renewcommand{\makelabel}{\entryDescription}%
+		\settowidth{\labelwidth}{\ \ \ #1\ \ }%
+		\setlength{\topsep}{\topsep+5mm}%
+		\setlength{\leftmargin}{\labelwidth+\labelsep}}}%
+	{\end{list}}
+\newcommand{\exerg}[1]{\textbf{#1}}
+
+\newcommand{\ueve}{Université d'Évry-Val d'Essonne\xspace}
+\newcommand{\upn}{Université Paris-Nord\xspace}
+\newcommand{\cnam}{Conservatoire National des Arts et Métiers\xspace}
+\newcommand{\ups}{Université Paul-Sabatier\xspace}
+\newcommand{\upmc}{Université Pierre-et-Marie-Curie\xspace}
+\newcommand{\ue}{Université d'Évry\xspace}
+\newcommand{\upd}{Université Paris-Dauphine\xspace}
+\newcommand{\lycee}{Lycée Blaise-Pascal\xspace}
+\newcommand{\cfd}{Clermont-Fd\xspace}
+\newcommand{\isae}{Institut Supérieur de l'Aéronautique et de l'Espace\xspace}
+
+\newcommand{\nom}{Fournier\xspace}
+\newcommand{\nomusage}{Fournier-S'niehotta\xspace}
+\newcommand{\prenom}{Raphaël\xspace}
+\newcommand{\labo}{Laboratoire CEDRIC\xspace}
+\newcommand{\ufr}{EPN5 Informatique\xspace}
+\newcommand{\adrlabo}{Bureau 37-1-40\xspace}
+\newcommand{\univ}{\cnam}
+\newcommand{\ed}{EDITE\xspace}
+\newcommand{\adruniv}{2, rue Conté 75003~Paris}
+\newcommand{\labothese}{LIP6\xspace}
+\newcommand{\univthese}{\upmc}
+\newcommand{\mentionthese}{Très honorable\xspace}
+\newcommand{\adrunivthese}{
+4, place Jussieu\\
+75252~Paris Cedex 5\\
+\xspace}
+\newcommand{\telwork}{+33 1 58 80 86 35\xspace}
+\newcommand{\mailwork}{fournier@cnam.fr\xspace}
+\newcommand{\webwork}{\url{http://raphael.fournier-sniehotta.fr}\xspace}
+
+\newcommand{\premier}{$1^{\text{er}}$\xspace}
+\newcommand{\sixieme}{$6^{\text{\`eme}}$\xspace}
+

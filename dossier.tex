@@ -1,0 +1,131 @@
+% <<< Preambule 
+\directlua{pdf.setminorversion(6)}
+\documentclass{cv_academique}
+%\parindent=0pt
+%\renewcommand{\baselinestretch}{1.5}
+
+\AtBeginBibliography{\small}
+\addbibresource{last4years.bib}
+
+\usepackage{lipsum}
+\usepackage{caption}
+\captionsetup[table]{name=\textsc{Tableau}}
+\usepackage{textcomp}
+\usepackage{setspace}
+\usepackage{tabularx}
+\usepackage{eurosym}
+\usepackage{todonotes}
+\usepackage{tablefootnote}
+
+\usepackage[all]{nowidow}
+\widowpenalty10000
+\clubpenalty10000
+\input{newcommands}
+\defbibheading{subbibliography}[\refname]{\subsubsection*{#1}}
+
+% for multibib / bibtex
+%\newcites{journaux,conferences,theses,ouvrages,vulgarisation,review}{{Revues avec comité de lecture},{Conférences avec comité de lecture},{Thèse},{Livre},{Vulgarisation}, {En cours de relecture (déposés avant fin 2019)}}
+%\usepackage[]{tocbibind}
+
+
+\specialcomment{encadre}{\bigskip\begingroup\begin{center}\begin{minipage}{.8\textwidth}\begin{mdframed}[roundcorner=10pt]}{\end{mdframed}\end{minipage}\end{center}\endgroup\bigskip}
+
+\usepackage{comment}
+\newif\ifconsignes
+\consignestrue
+\consignesfalse
+
+\ifconsignes
+\mdfdefinestyle{cssstyle}{linecolor=gray, linewidth=2pt}
+\newmdenv[style=cssstyle]{consignes}
+\else
+  \excludecomment{consignes}
+\fi
+
+\usepackage{etoolbox}
+\BeforeBeginEnvironment{thebibliography}{%
+  \let\origsection\subsection% save the original definition of \section
+  \let\section\subsubsection%  make \section behave like \subsection
+}
+\AfterEndEnvironment{thebibliography}{%
+  \let\subsection\origsection% restore the original definition of \section
+}
+% >>>
+
+\begin{document}
+
+%<<< Page de garde ------------------------------------------
+%\setcounter{page}{1}
+\input{sections/titlepage}
+%\newpage
+%\pagestyle{empty}~\newpage
+%>>>
+
+%<<< Préparation --------------------------------------------
+\pagestyle{numerotationPages}
+
+% ca marche pas si je le mets avant le toc 
+% attention : {\color{Blue4} texte} casse les espacements verticaux
+%\let\sectionold\section
+%\renewcommand{\section}[1]{\sectionold{\textcolor{Maroon}{#1}}\vspace{-.8cm}\noindent{\color{Maroon}\ligne{.1mm}}}
+
+\let\sectionold\section
+\makeatletter
+\renewcommand\section
+  {%
+    \@ifstar
+      {\sectionauxB}
+      {\sectionauxA}%
+  }
+\newcommand\sectionauxA[2][&]
+  {%
+    \ifx&#1%
+			\sectionold{\textcolor{Maroon}{#2}}\vspace{-.8cm}\noindent{\color{Maroon}\ligne{.1mm}}
+		\else
+			\sectionold[\textcolor{Maroon}{#1}]{\textcolor{Maroon}{#2}}\vspace{-.8cm}\noindent{\color{Maroon}\ligne{.1mm}}
+		\fi
+  }
+\newcommand\sectionauxB[1]
+  {%
+    \sectionold*{#1}%
+  }
+\makeatother
+
+\let\subsectionold\subsection
+\renewcommand{\subsection}[1]{\vspace{-.2cm}\subsectionold{\textcolor{Blue4}{#1}}} 
+
+\newcommand{\incpage}[2]{
+\includepdf[addtotoc={1,section,1,{#1},1},noautoscale=true, pagecommand={\thispagestyle{empty}},pages=-]{#2}  
+} 
+
+%>>>
+
+%<<< Formulaires ---------------------------------------
+\newpage
+\incpage{Formulaire de demande d'inscription}{pieces/DemandeInscriptionVierge.pdf}  
+\incpage{CV garant avec encadrements}{pieces/CV-garant.pdf}  
+%>>>
+
+%<<< Identité ---------------------------------------
+\incpage{CNI}{pieces/cni.pdf}
+\incpage{Diplôme précédent}{pieces/Doctorat-RFS.pdf}
+\incpage{Lettre garant}{pieces/lettre-garant-maturite.pdf}
+%>>>
+
+%<<< Résumés -------------------------------------------------
+\section{Résumés}
+\input{sections/resume-travaux.tex}
+\newpage
+\input{sections/resume-avenir.tex}
+%>>>
+
+%<<< Rapporteurs --------------------------------------
+\newpage
+\section{Liste des rapporteurs potentiels}
+\input{sections/liste-rapports.tex}
+\incpage{Lettre garant}{pieces/lettre-garant-rapporteurs.pdf}
+
+%>>>
+
+\end{document}
+% vim: set fdm=marker fmr=<<<,>>> fdl=0:
